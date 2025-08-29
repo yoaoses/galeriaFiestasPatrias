@@ -1,0 +1,123 @@
+:root{
+  /* Paleta Garden */
+  --accent-color: #E9961A;        /* Naranja institucional (links/CTA primario) */
+  --brand-green: #105b42;         /* Verde institucional base */
+  --brand-green-muted: color-mix(in srgb, var(--brand-green), rgb(19, 62, 38) 35%);
+  --default-color: rgba(255,255,255,.80);   /* mejor lectura en dark */
+  --surface-color: #1a1a1a;                 /* tarjetas/cajas sutilmente más claras */
+
+  /* Nav/menus */
+  --nav-hover-color: var(--accent-color);
+  --nav-mobile-background-color: var(--brand-green-muted);
+  --nav-dropdown-background-color: var(--brand-green-muted);
+  --nav-dropdown-color: #fff;
+  --nav-dropdown-hover-color: var(--accent-color);
+}
+
+/* Header “branding” con fade verde pulcro */
+.header { --background-color: rgba(23, 109, 81, 0.58); }      /* base */
+.scrolled .header { --background-color: rgb(22 101 76 / .88);}/* scroll más profundo */
+.header .branding{
+  background-color: var(--background-color) !important;
+  border-bottom-color: color-mix(in srgb, var(--brand-green), transparent 70%) !important;
+}
+
+/* Botones coherentes en galería (menos estridentes) */
+.btn-success { background-color: var(--brand-green); border-color: var(--brand-green); }
+.btn-success:hover{ background-color: color-mix(in srgb, var(--brand-green), black 12%); }
+
+/* Menús forzados si el CSS del template gana en especificidad */
+@media (min-width:1200px){
+  .navmenu .dropdown ul{ background-color: var(--nav-dropdown-background-color) !important; }
+}
+@media (max-width:1199px){
+  .navmenu ul{ background-color: var(--nav-mobile-background-color) !important; }
+  .navmenu a, .navmenu a:focus{ color: var(--nav-dropdown-color) !important; }
+  .navmenu a:hover{ color: var(--nav-dropdown-hover-color) !important; }
+}
+
+/* “¿Por qué elegirnos?”: hover sobrio (evita bloque naranja) */
+.why-us .card-item:hover{
+  background: color-mix(in srgb, var(--surface-color), white 6%);
+  box-shadow: 0 10px 22px rgba(0,0,0,.35);
+  border-top: 4px solid var(--accent-color);
+  padding: 30px 30px 70px 30px; /* preserva el comportamiento original */
+}
+
+/* Permitir que el logo sobresalga visualmente */
+.header,
+.header .branding {
+  overflow: visible !important;
+}
+
+/* Quitar límite del template y hacerlo rebasar arriba/abajo */
+.header .logo img {
+  max-height: none !important;               /* ignora el 36px del template */
+  height: clamp(52px, 9vh, 84px);            /* tamaño grande (responsive) */
+  width: auto;
+  margin-top: -12px;                         /* rebasa por arriba */
+  margin-bottom: -12px;                      /* rebasa por abajo */
+  border-radius: 50%;                        /* si tu logo es circular, queda prolijo */
+  background: #fff;                          /* halo blanco fino (opcional) */
+  padding: 1px;                              /* halo blanco fino (opcional) */
+  box-shadow: 0 6px 14px rgba(0,0,0,.25);    /* levanta sobre la barra */
+  position: relative;
+  z-index: 1002;                             /* por si hay overlays del header */
+}
+
+/* Ajuste al hacer scroll: que se “comporta” y no tape demasiado */
+.scrolled .header .logo img {
+  height: clamp(44px, 7vh, 64px);
+  margin-top: -8px;
+  margin-bottom: -8px;
+  transition: height .25s ease, margin .25s ease;
+}
+
+/* En móviles: un poco más contenido para que no choque con el toggler */
+@media (max-width: 575.98px) {
+  .header .logo img {
+    height: 52px;
+    margin-top: -8px;
+    margin-bottom: -8px;
+  }
+}
+
+/* Contenedor del video de fondo */
+.hero { position: relative; min-height: 100vh; }
+.yt-hero{ position:absolute; inset:0; z-index:1; overflow:hidden; }
+.yt-bg{
+  position:absolute; top:50%; left:50%;
+  transform: translate(-50%,-50%);
+  width:177.78vh; height:100vh; border:0; pointer-events:none;
+}
+@media (min-aspect-ratio:16/9){
+  .yt-bg{ width:100vw; height:56.25vw; }
+}
+.hero-overlay{ position:absolute; inset:0; background:rgba(0,0,0,.42); }
+.video-credit{
+  position:absolute; right:12px; bottom:10px; z-index:3;
+  background:rgba(0,0,0,.55); color:#fff; padding:.3rem .5rem; border-radius:.4rem; font-size:.85rem;
+}
+/* Oculta el botón play del template en el hero */
+.hero .play-btn, .pulsating-play-btn{ display:none !important; }
+
+/* Hero por defecto (desktop: video cubre ancho completo) */
+.yt-bg {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100vw;
+  height: 56.25vw; /* 16:9 */
+  border: 0;
+  pointer-events: none;
+}
+
+/* En móviles, achicar iframe → YouTube baja la calidad */
+@media (max-width: 100%) {
+  .yt-bg {
+    width: 80vw;   /* más chico */
+    height: 45vw;  /* mantiene 16:9 */
+  }
+}
+
+
