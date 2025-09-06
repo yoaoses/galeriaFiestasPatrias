@@ -210,3 +210,43 @@ document.addEventListener('visibilitychange', ()=>{
     f.contentWindow.postMessage(JSON.stringify({event:'command', func:cmd, args:[]}), '*');
   }
 });
+
+// INICIO ACCORDEON HORIZONTAL
+
+document.addEventListener("DOMContentLoaded", () => {
+  const items = document.querySelectorAll(".accordion-h-item");
+  let currentIndex = 0;
+  const intervalTime = 5000; // 7s entre cambios
+
+ // función para mostrar un item específico
+ function showItem(index) {
+  items.forEach((item, i) => {
+    item.classList.remove("active");
+    const link = item.querySelector("a");
+    if (link) link.setAttribute("tabindex", "-1"); // desactivar tab
+  });
+  items[index].classList.add("active");
+  const activeLink = items[index].querySelector("a");
+  if (activeLink) activeLink.setAttribute("tabindex", "0"); // activar tab
+  currentIndex = index;
+}
+
+  // listeners manuales
+  items.forEach((item, index) => {
+    const header = item.querySelector(".accordion-h-header");
+    header.addEventListener("click", () => {
+      showItem(index);
+    });
+  });
+
+  // inicial
+  showItem(currentIndex);
+
+  // rotación automática
+  setInterval(() => {
+    const nextIndex = (currentIndex + 1) % items.length;
+    showItem(nextIndex);
+  }, intervalTime);
+});
+
+// FIN ACCORDEON HORIZONTAL

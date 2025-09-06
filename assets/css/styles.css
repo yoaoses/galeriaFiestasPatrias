@@ -12,6 +12,8 @@
   --nav-dropdown-background-color: var(--brand-green-muted);
   --nav-dropdown-color: #fff;
   --nav-dropdown-hover-color: var(--accent-color);
+  --header-height: 130px;
+  --bp-ipad: 991.98px
 }
 
 /* Header “branding” con fade verde pulcro */
@@ -22,6 +24,7 @@
   border-bottom-color: color-mix(in srgb, var(--brand-green), transparent 70%) !important;
 }
 
+
 /* Botones coherentes en galería (menos estridentes) */
 .btn-success { background-color: var(--brand-green); border-color: var(--brand-green); }
 .btn-success:hover{ background-color: color-mix(in srgb, var(--brand-green), black 12%); }
@@ -30,7 +33,7 @@
 @media (min-width:1200px){
   .navmenu .dropdown ul{ background-color: var(--nav-dropdown-background-color) !important; }
 }
-@media (max-width:1199px){
+@media (max-width:991.98px){
   .navmenu ul{ background-color: var(--nav-mobile-background-color) !important; }
   .navmenu a, .navmenu a:focus{ color: var(--nav-dropdown-color) !important; }
   .navmenu a:hover{ color: var(--nav-dropdown-hover-color) !important; }
@@ -74,7 +77,7 @@
 }
 
 /* En móviles: un poco más contenido para que no choque con el toggler */
-@media (max-width: 575.98px) {
+@media (max-width: 991.98px) {
   .header .logo img {
     height: 52px;
     margin-top: -8px;
@@ -84,15 +87,16 @@
 
 /* Contenedor del video de fondo */
 .hero { position: relative; min-height: 100vh; }
+@media (max-width: 991.98px) {
+  .hero {min-height: 40vh;}/* en móvil solo 40% de la pantalla */
+}
 .yt-hero{ position:absolute; inset:0; z-index:1; overflow:hidden; }
 .yt-bg{
   position:absolute; top:50%; left:50%;
   transform: translate(-50%,-50%);
   width:177.78vh; height:100vh; border:0; pointer-events:none;
 }
-@media (min-aspect-ratio:16/9){
-  .yt-bg{ width:100vw; height:56.25vw; }
-}
+
 .hero-overlay{ position:absolute; inset:0; background:rgba(0,0,0,.42); }
 .video-credit{
   position:absolute; right:12px; bottom:10px; z-index:3;
@@ -112,12 +116,125 @@
   pointer-events: none;
 }
 
-/* En móviles, achicar iframe → YouTube baja la calidad */
-@media (max-width: 100%) {
-  .yt-bg {
-    width: 80vw;   /* más chico */
-    height: 45vw;  /* mantiene 16:9 */
-  }
+/* Sección de thumbs bajo el hero */
+.hero-thumbs {
+  background: #000;
+  height: 60vh;            /* ocupa el 60% de la altura de pantalla */
+  display: flex;
+  align-items: center;     /* centra vertical */
 }
+
+#hero-thumbs .row {
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+/* Cada cuadrito */
+.hero-thumbs .thumb {
+  background: #ccc;
+  aspect-ratio: 1/1;       /* mantiene cuadrado */
+  flex: 1 1 5%;           /* dos por fila (≈50% con gap) */
+  margin: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  color: #333;
+  border-radius: 8px;
+  max-height: 80%;         /* evita que se desborde en pantallas muy chicas */
+}
+
+
+
+/* ocultar en desktop, mostrar en móvil */
+@media (max-width: 991.98px) {
+  .hero-thumbs { display:block !important; }
+}
+
+#hero {
+  padding-top: calc(var(--header-height, 130px));
+}
+
+/* INICIO ACCORDEON HORIZONTAL */
+.accordion-horizontal {
+  background: #000;
+  height: 60vh;
+  overflow: hidden;
+}
+
+.accordion-h-container {
+  display: flex;
+  height: 100%;
+}
+
+/* Cada item es header + body */
+.accordion-h-item {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  border-right: 1px solid #ccc;
+  overflow: hidden;
+}
+
+/* Header fijo */
+.accordion-h-header {
+  width: 60px;
+  background: #fff;
+  color: #222;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-orientation: mixed;
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  border-right: 1px solid #ccc;
+  z-index: 2; /* que quede siempre visible */
+}
+
+/* Header activo */
+.accordion-h-item.active .accordion-h-header {
+  background: var(--accent-color);
+  color: #fff;
+  border-right: 1px solid var(--accent-color);
+}
+
+/* Body colapsado por defecto 
+
+transition: width 0.5s ease;
+*/
+.accordion-h-body {
+  width: 0;
+  overflow: hidden;
+  background: #111;
+  color: var(--default-color);
+  transition: width 0.5s ease-in-out;  
+  padding: 0;
+  display: flex;             /* flex para centrar imagen */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Body activo: ocupa todo el resto del ancho */
+.accordion-h-item.active .accordion-h-body {
+  width: calc(100vw - 60px * 4); /* ocupa el resto del ancho */
+  padding: 0;                    /* sin relleno extra para que la img llene */
+}
+
+/* Imagen dentro del body */
+.accordion-h-body img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* cubre todo el body */
+  display: block;
+}
+/* FIN ACCORDEON HORIZONTAL */
+
 
 
