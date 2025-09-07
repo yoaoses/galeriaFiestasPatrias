@@ -1,82 +1,69 @@
-:root{
-  /* Paleta Garden */
-  --accent-color: #E9961A;        /* Naranja institucional (links/CTA primario) */
-  --brand-green: #105b42;         /* Verde institucional base */
+:root {
+  /* 🎨 Paleta Garden */
+  --accent-color: #E9961A;
+  --brand-green: #105b42;
   --brand-green-muted: color-mix(in srgb, var(--brand-green), rgb(19, 62, 38) 35%);
-  --default-color: rgba(255,255,255,.80);   /* mejor lectura en dark */
-  --surface-color: #1a1a1a;                 /* tarjetas/cajas sutilmente más claras */
+  --default-color: rgba(255,255,255,.80);
+  --surface-color: #1a1a1a;
 
-  /* Nav/menus */
+  /* 🧭 Nav/menus */
   --nav-hover-color: var(--accent-color);
   --nav-mobile-background-color: var(--brand-green-muted);
   --nav-dropdown-background-color: var(--brand-green-muted);
   --nav-dropdown-color: #fff;
   --nav-dropdown-hover-color: var(--accent-color);
+
+  /* Altura fija del header */
   --header-height: 130px;
-  --bp-ipad: 991.98px
 }
 
-/* Header “branding” con fade verde pulcro */
-.header { --background-color: rgba(23, 109, 81, 0.58); }      /* base */
-.scrolled .header { --background-color: rgb(22 101 76 / .88);}/* scroll más profundo */
-.header .branding{
+/* ============================================================
+   HEADER
+   ============================================================ */
+.header { --background-color: rgba(23, 109, 81, 0.58); }
+.scrolled .header { --background-color: rgb(22 101 76 / .88); }
+.header .branding {
   background-color: var(--background-color) !important;
   border-bottom-color: color-mix(in srgb, var(--brand-green), transparent 70%) !important;
 }
 
-
-/* Botones coherentes en galería (menos estridentes) */
+/* Botones coherentes */
 .btn-success { background-color: var(--brand-green); border-color: var(--brand-green); }
-.btn-success:hover{ background-color: color-mix(in srgb, var(--brand-green), black 12%); }
+.btn-success:hover { background-color: color-mix(in srgb, var(--brand-green), black 12%); }
 
-/* Menús forzados si el CSS del template gana en especificidad */
-@media (min-width:1200px){
-  .navmenu .dropdown ul{ background-color: var(--nav-dropdown-background-color) !important; }
-}
-@media (max-width:991.98px){
-  .navmenu ul{ background-color: var(--nav-mobile-background-color) !important; }
-  .navmenu a, .navmenu a:focus{ color: var(--nav-dropdown-color) !important; }
-  .navmenu a:hover{ color: var(--nav-dropdown-hover-color) !important; }
+/* Menús en desktop */
+@media (min-width: 1200px) {
+  .navmenu .dropdown ul { background-color: var(--nav-dropdown-background-color) !important; }
 }
 
-/* “¿Por qué elegirnos?”: hover sobrio (evita bloque naranja) */
-.why-us .card-item:hover{
-  background: color-mix(in srgb, var(--surface-color), white 6%);
-  box-shadow: 0 10px 22px rgba(0,0,0,.35);
-  border-top: 4px solid var(--accent-color);
-  padding: 30px 30px 70px 30px; /* preserva el comportamiento original */
+/* Menús en mobile (Bootstrap ≤992px) */
+@media (max-width: 991.98px) {
+  .navmenu ul { background-color: var(--nav-mobile-background-color) !important; }
+  .navmenu a, .navmenu a:focus { color: var(--nav-dropdown-color) !important; }
+  .navmenu a:hover { color: var(--nav-dropdown-hover-color) !important; }
 }
 
-/* Permitir que el logo sobresalga visualmente */
-.header,
-.header .branding {
-  overflow: visible !important;
-}
-
-/* Quitar límite del template y hacerlo rebasar arriba/abajo */
+/* Logo */
+.header, .header .branding { overflow: visible !important; }
 .header .logo img {
-  max-height: none !important;               /* ignora el 36px del template */
-  height: clamp(52px, 9vh, 84px);            /* tamaño grande (responsive) */
+  max-height: none !important;
+  height: clamp(52px, 9vh, 84px);
   width: auto;
-  margin-top: -12px;                         /* rebasa por arriba */
-  margin-bottom: -12px;                      /* rebasa por abajo */
-  border-radius: 50%;                        /* si tu logo es circular, queda prolijo */
-  background: #fff;                          /* halo blanco fino (opcional) */
-  padding: 1px;                              /* halo blanco fino (opcional) */
-  box-shadow: 0 6px 14px rgba(0,0,0,.25);    /* levanta sobre la barra */
+  margin-top: -12px;
+  margin-bottom: -12px;
+  border-radius: 50%;
+  background: #fff;
+  padding: 1px;
+  box-shadow: 0 6px 14px rgba(0,0,0,.25);
   position: relative;
-  z-index: 1002;                             /* por si hay overlays del header */
+  z-index: 1002;
 }
-
-/* Ajuste al hacer scroll: que se “comporta” y no tape demasiado */
 .scrolled .header .logo img {
   height: clamp(44px, 7vh, 64px);
   margin-top: -8px;
   margin-bottom: -8px;
   transition: height .25s ease, margin .25s ease;
 }
-
-/* En móviles: un poco más contenido para que no choque con el toggler */
 @media (max-width: 991.98px) {
   .header .logo img {
     height: 52px;
@@ -85,156 +72,144 @@
   }
 }
 
-/* Contenedor del video de fondo */
-.hero { position: relative; min-height: 100vh; }
-@media (max-width: 991.98px) {
-  .hero {min-height: 40vh;}/* en móvil solo 40% de la pantalla */
-}
-.yt-hero{ position:absolute; inset:0; z-index:1; overflow:hidden; }
-.yt-bg{
-  position:absolute; top:50%; left:50%;
-  transform: translate(-50%,-50%);
-  width:177.78vh; height:100vh; border:0; pointer-events:none;
-}
+/* ============================================================
+   HERO (video de fondo) — full-bleed y cover para iframe
+   ============================================================ */
+#hero.section { padding-top: 0 !important; padding-bottom: 0 !important; }
+.hero::before { content: none !important; }  /* anula adorno del template */
+.hero {
+  position: relative;
+  min-height: 100vh;
 
-.hero-overlay{ position:absolute; inset:0; background:rgba(0,0,0,.42); }
-.video-credit{
-  position:absolute; right:12px; bottom:10px; z-index:3;
-  background:rgba(0,0,0,.55); color:#fff; padding:.3rem .5rem; border-radius:.4rem; font-size:.85rem;
-}
-/* Oculta el botón play del template en el hero */
-.hero .play-btn, .pulsating-play-btn{ display:none !important; }
+  /* full-bleed aunque el layout use gutters/containers */
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
 
-/* Hero por defecto (desktop: video cubre ancho completo) */
-.yt-bg {
+  background: #000; /* por si el video tarda en cargar */
+}
+.yt-hero { position: absolute; inset: 0; z-index: 1; overflow: hidden; }
+
+/* COVER real para <iframe> (no confiar en object-fit) */
+.yt-hero .yt-bg{
   position: absolute;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 100vw;
-  height: 56.25vw; /* 16:9 */
   border: 0;
   pointer-events: none;
+
+  /* caso base: escalar por ancho (cubre en vertical) */
+  width: 100vw;
+  height: 56.25vw;     /* 9/16 de 100vw */
+  min-width: 100%;
+  min-height: 100%;
+}
+/* si la ventana es más alta que 16:9, escalar por alto (cubre en horizontal) */
+@media (max-aspect-ratio: 16/9){
+  .yt-hero .yt-bg{ width: 177.78vh; height: 100vh; } /* 16/9 * 100 */
 }
 
-/* Sección de thumbs bajo el hero */
-.hero-thumbs {
-  background: #000;
-  height: 60vh;            /* ocupa el 60% de la altura de pantalla */
-  display: flex;
-  align-items: center;     /* centra vertical */
+.hero-overlay { position: absolute; inset: 0; background: rgba(0,0,0,.42); z-index: 2; }
+.video-credit {
+  position: absolute; right: 12px; bottom: 10px; z-index: 3;
+  background: rgba(0,0,0,.55); color: #fff;
+  padding: .3rem .5rem; border-radius: .4rem; font-size: .85rem;
 }
+.hero .play-btn, .pulsating-play-btn { display: none !important; }
 
-#hero-thumbs .row {
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-}
-
-/* Cada cuadrito */
-.hero-thumbs .thumb {
-  background: #ccc;
-  aspect-ratio: 1/1;       /* mantiene cuadrado */
-  flex: 1 1 5%;           /* dos por fila (≈50% con gap) */
-  margin: 4px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: bold;
-  font-size: 1.2rem;
-  color: #333;
-  border-radius: 8px;
-  max-height: 80%;         /* evita que se desborde en pantallas muy chicas */
-}
-
-
-
-/* ocultar en desktop, mostrar en móvil */
-@media (max-width: 991.98px) {
-  .hero-thumbs { display:block !important; }
-}
-
-#hero {
-  padding-top: calc(var(--header-height, 130px));
-}
-
-/* INICIO ACCORDEON HORIZONTAL */
-.accordion-horizontal {
-  background: #000;
-  height: 60vh;
-  overflow: hidden;
-}
-
-.accordion-h-container {
-  display: flex;
-  height: 100%;
-}
-
-/* Cada item es header + body */
+/* ============================================================
+   ACCORDEÓN HORIZONTAL (si lo usas)
+   ============================================================ */
+.accordion-horizontal { background: #000; overflow: hidden; }
+.accordion-h-container { display: flex; height: 100%; }
 .accordion-h-item {
-  display: flex;
-  flex-direction: row;
-  height: 100%;
-  border-right: 1px solid #ccc;
-  overflow: hidden;
+  display: flex; flex-direction: row; height: 100%;
+  border-right: 1px solid #ccc; overflow: hidden;
 }
-
-/* Header fijo */
 .accordion-h-header {
   width: 60px;
-  background: #fff;
-  color: #222;
-  writing-mode: vertical-rl;
-  transform: rotate(180deg);
-  text-orientation: mixed;
-  text-align: center;
-  font-weight: 600;
-  font-size: 0.9rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  user-select: none;
-  border-right: 1px solid #ccc;
-  z-index: 2; /* que quede siempre visible */
+  background: #fff; color: #222;
+  writing-mode: vertical-lr; text-orientation: mixed;
+  text-align: center; font-weight: 600; font-size: 0.9rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  user-select: none; border-right: 1px solid #ccc; z-index: 2;
 }
-
-/* Header activo */
 .accordion-h-item.active .accordion-h-header {
-  background: var(--accent-color);
-  color: #fff;
-  border-right: 1px solid var(--accent-color);
+  background: var(--accent-color); color: #fff; border-right: 1px solid var(--accent-color);
 }
-
-/* Body colapsado por defecto 
-
-transition: width 0.5s ease;
-*/
 .accordion-h-body {
-  width: 0;
-  overflow: hidden;
-  background: #111;
-  color: var(--default-color);
-  transition: width 0.5s ease-in-out;  
-  padding: 0;
-  display: flex;             /* flex para centrar imagen */
-  align-items: center;
-  justify-content: center;
+  width: 0; overflow: hidden; background: #111; color: var(--default-color);
+  transition: width .5s ease-in-out;
+  padding: 0; display: flex; align-items: center; justify-content: center;
+}
+.accordion-h-item.active .accordion-h-body { width: calc(100% - 60px * 4); } /* evita overflow por 100vw */
+.accordion-h-body img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+/* ============================================================
+   QUICK LINKS (chips outline)
+   ============================================================ */
+.quick-links{ margin: .5rem auto 1rem; padding: 0 .75rem; }
+.quick-links .ql-grid{
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); /* 2×2 en móvil */
+  gap: .5rem;
+}
+@media (min-width: 540px){ .quick-links .ql-grid{ grid-template-columns: repeat(4, 1fr); } }
+.quick-links .ql{
+  display: flex; align-items: center; justify-content: center;
+  min-height: 48px; padding: .6rem .9rem;
+  border: 2px solid var(--accent-color); border-radius: .75rem;
+  background: transparent; color: #fff;
+  text-decoration: none; font-weight: 600; letter-spacing: .2px;
+  transition: background-color .2s, color .2s, border-color .2s, transform .05s;
+}
+.quick-links .ql:hover, .quick-links .ql:focus{
+  background: var(--accent-color); color: #111; outline: none;
+}
+.quick-links .ql:active{ transform: scale(.98); }
+
+/* ============================================================
+   FIXES + RESPONSIVE BREAKPOINTS
+   ============================================================ */
+header.header{ margin-bottom: 0 !important; }
+#hero{ margin-top: 0 !important; padding-top: 0 !important; }
+:target{ scroll-margin-top: var(--header-height); }
+#accordion-horizontal{ margin-top: 0 !important; padding-top: 0 !important; }
+
+/* ===== 📱 Mobile (≤800px): header fijo + reparto 60/40 ===== */
+@media (max-width: 800px) {
+  .topbar .phones{ display:none; }
+  .topbar .email{ display:block; }
+  .topbar .contact-info{ justify-content:center; }
+
+  /* Coloca TODO el contenido bajo el header y ocupa el alto visible */
+  .header + .main{
+    margin-top: var(--header-height);
+    height: calc(100dvh - var(--header-height));
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* Reparto de alturas */
+  #hero{ flex: 0 0 60%; min-height: 0; position: relative; overflow: hidden; }
+  #accordion-horizontal{ flex: 1 1 40%; margin:0 !important; padding:0 !important; }
+
+  /* Contenido del hero centrado */
+  #hero .container{
+    position: relative; z-index: 4;
+    height: 100%; margin: 0; padding: 0 1rem;
+    display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center;
+  }
+  #hero h2, #hero p{ text-align: center; }
+  #hero .d-flex.mt-4{ justify-content: center; }
 }
 
-/* Body activo: ocupa todo el resto del ancho */
-.accordion-h-item.active .accordion-h-body {
-  width: calc(100vw - 60px * 4); /* ocupa el resto del ancho */
-  padding: 0;                    /* sin relleno extra para que la img llene */
+/* ===== 📟 Tablets (801px–1180px) ===== */
+@media (min-width: 801px) and (max-width: 1180px) {
+  #hero{ min-height: 100vh; padding-top: var(--header-height); }
 }
 
-/* Imagen dentro del body */
-.accordion-h-body img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;   /* cubre todo el body */
-  display: block;
+/* ===== 💻 Desktop (≥1181px) ===== */
+@media (min-width: 1181px) {
+  #hero{ min-height: 100vh; padding-top: var(--header-height); }
 }
-/* FIN ACCORDEON HORIZONTAL */
-
-
-

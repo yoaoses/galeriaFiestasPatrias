@@ -211,42 +211,52 @@ document.addEventListener('visibilitychange', ()=>{
   }
 });
 
-// INICIO ACCORDEON HORIZONTAL
-
+// INICIO ACCORDEON HORIZONTAL + ROTACIÓN AUTOMÁTICA CON PAUSA
 document.addEventListener("DOMContentLoaded", () => {
   const items = document.querySelectorAll(".accordion-h-item");
   let currentIndex = 0;
-  const intervalTime = 5000; // 7s entre cambios
+  const intervalTime = 7000; // 7s
+  let autoRotate; // guardamos el intervalo
 
- // función para mostrar un item específico
- function showItem(index) {
-  items.forEach((item, i) => {
-    item.classList.remove("active");
-    const link = item.querySelector("a");
-    if (link) link.setAttribute("tabindex", "-1"); // desactivar tab
-  });
-  items[index].classList.add("active");
-  const activeLink = items[index].querySelector("a");
-  if (activeLink) activeLink.setAttribute("tabindex", "0"); // activar tab
-  currentIndex = index;
-}
+  function showItem(index) {
+    items.forEach(i => i.classList.remove("active"));
+    items[index].classList.add("active");
+
+    // manejo de tabindex para accesibilidad
+    items.forEach(item => {
+      const link = item.querySelector("a");
+      if (link) link.setAttribute("tabindex", "-1");
+    });
+    const activeLink = items[index].querySelector("a");
+    if (activeLink) activeLink.setAttribute("tabindex", "0");
+
+    currentIndex = index;
+  }
+
+  // función autoplay
+  function startAutoRotate() {
+    autoRotate = setInterval(() => {
+      const nextIndex = (currentIndex + 1) % items.length;
+      showItem(nextIndex);
+    }, intervalTime);
+  }
+
+  // función para parar autoplay
+  function stopAutoRotate() {
+    clearInterval(autoRotate);
+  }
 
   // listeners manuales
   items.forEach((item, index) => {
     const header = item.querySelector(".accordion-h-header");
     header.addEventListener("click", () => {
       showItem(index);
+      stopAutoRotate(); // 👈 usuario interactuó → detener autoplay
     });
   });
 
   // inicial
   showItem(currentIndex);
-
-  // rotación automática
-  setInterval(() => {
-    const nextIndex = (currentIndex + 1) % items.length;
-    showItem(nextIndex);
-  }, intervalTime);
+  startAutoRotate();
 });
-
-// FIN ACCORDEON HORIZONTAL
+// FIN ACCORDEON HORIZONTAL + ROTACIÓN AUTOMÁTICA CON PAUSA
